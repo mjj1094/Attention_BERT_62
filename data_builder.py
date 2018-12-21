@@ -84,7 +84,7 @@ def generate_vector(path,files):
     words=json.load(f)
     f.close()
 
-    tokenizer = BertTokenizer.from_pretrained('/home/miaojingjing/data/chinese_L-12_H-768_A-12/vocab.txt')
+    tokenizer = BertTokenizer.from_pretrained(args.bert_dir+'vocab.txt')
     orig_to_tok_maps_bert = []
     vectorized_sentences_bert = []
     mask_sentences_bert = []
@@ -101,7 +101,7 @@ def generate_vector(path,files):
     for p in paths:
         if p.strip().endswith("DS_Store"):continue
         done_num += 1
-        file_name = p.strip()
+        file_name = args.data + p.strip()
         if file_name.endswith("onf"):
 
             if args.reduced == 1 and done_num >= 3:break
@@ -768,7 +768,7 @@ def get_bert_out(output_path,local_rank,no_cuda,batch_size):
         torch.distributed.init_process_group(backend='nccl')
     logger.info("device: {} n_gpu: {} distributed training: {}".format(device, n_gpu, bool(local_rank != -1)))
 
-    model = BertModel.from_pretrained('/home/miaojingjing/data/chinese_L-12_H-768_A-12/')
+    model = BertModel.from_pretrained(args.bert_dir)
     model.to(device)
     # model.to(0)
 
@@ -800,7 +800,7 @@ def get_bert_out(output_path,local_rank,no_cuda,batch_size):
         outs = []
         for b, example_index in enumerate(example_indices):
             layer_output = all_encoder_layers[-1].detach().cpu().numpy()  # last layer
-            layer_output = layer_output[b] [:,:512] # sent b
+            layer_output = layer_output[b][:,:512] # sent b
             # out = [round(x.item(), 6) for x in layer_output[0]]  # [CLS]
             # outs.append(out)
             outs.append(layer_output)# all tokens-----------------
