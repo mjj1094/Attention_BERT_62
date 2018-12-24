@@ -1,6 +1,6 @@
 pretrained model + preprocessed data
 1. 数据处理->dataM  
-将*pro*之外的5种零元素都改为[MASK]，并且6种类型全部去掉‘-d’(即后面的数字，如：-1)  
+ 将*pro*之外的5种零元素都改为[MASK]，并且6种类型全部去掉‘-d’(即后面的数字，如：-1)  
  1）#留着*pro*  
  sed -i "s/\-NONE\- \*pro\*/\-NULL\- *pro*/g"  `grep "\-NONE\- \*pro\*" -rl ./data/zp_data`  
  
@@ -31,5 +31,5 @@ test: 0.5539988324576766（差两个点）
 Attention result：  
 dev: 0.5346921075455334  
 test: 0.5732632807939287  
-2. 存在问题：  
+3. 存在问题：  
 Dev和test的结果相差12个点，跟目标函数有关？算不算过拟合？  
