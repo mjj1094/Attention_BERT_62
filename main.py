@@ -179,7 +179,7 @@ def main():
     for echo in range(args.num_train_epochs):
         cost = 0.0
         print("Begin epoch", echo, file=sys.stderr)
-        for data in train_generater.generate_data(shuffle=False):
+        for data in train_generater.generate_data(shuffle=True):
             # output,output_softmax = model.forward(data,dropout=nnargs["dropout"])#no .forward(),for 3
             output, output_softmax = model.forward(data, dropout=nnargs["dropout"])  # no .forward()
             if len(output.size()) == 1 and output.size()[0] == 2:

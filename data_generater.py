@@ -80,7 +80,7 @@ class DataGnerater():
             this_batch["fl"] = self.ifl_vec[ci_s:ci_e]
             this_batch["start2end"] = s2e
             self.data_batch.append(this_batch)
-    def devide(self,k=0.2,shuffle=False):
+    def devide(self,k=0.2,shuffle=True):
         # random.shuffle(self.data_batch)
         if shuffle:
             random.shuffle(self.data_batch)
@@ -88,7 +88,7 @@ class DataGnerater():
         self.dev = self.data_batch[:length]
         self.train = self.data_batch[length:]
         self.data_batch = self.train
-    def generate_data(self,shuffle=False):
+    def generate_data(self,shuffle=True):
         if shuffle:
             random.shuffle(self.data_batch) 
         estimate_time = 0.0 
@@ -105,7 +105,7 @@ class DataGnerater():
             info = "Total use %.3f seconds for %d/%d -- EST:%f , Left:%f"%(end_time-start_time,done_num,total_num,EST,EST-estimate_time)
             sys.stderr.write(info+"\r")
         print(file=sys.stderr)
-    def generate_dev_data(self,shuffle=False):
+    def generate_dev_data(self,shuffle=True):
         if shuffle:
             random.shuffle(self.dev) 
         estimate_time = 0.0 
