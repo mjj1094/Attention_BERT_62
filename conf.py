@@ -12,6 +12,7 @@ DIR="./data/"
 parser = argparse.ArgumentParser(description="Experiemts\n")
 parser.add_argument("-data",default = DIR, required=True,type=str, help="saved vectorized data")
 parser.add_argument("-raw_data",default = "./data/zp_data/", type=str, help="raw_data")
+parser.add_argument("-bert_dir",default = "/home/miaojingjing/data/Attention_bert/BertPretrainedModel/chinese_L-12_H-768_A-12/",type=str, help="saved BERT model")
 parser.add_argument("-props",default = "./properties/prob", type=str, help="properties")
 parser.add_argument("-reduced",default = 0, type=int, help="reduced")
 parser.add_argument("-gpu",default = 0, type=int, help="GPU number")

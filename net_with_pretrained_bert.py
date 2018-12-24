@@ -912,18 +912,18 @@ class Network(PreTrainedBertModel):
         candi_mask_bert = torch.tensor(data["candi_mask_bert"]).type(torch.cuda.FloatTensor)#why not LongTensor
         feature = torch.tensor(data["fl"]).type(torch.cuda.FloatTensor)
         candi_bert = torch.transpose(candi_bert,0,1)#40*x*256
-        mask_candi_bert = torch.transpose(candi_mask_bert,0,1)
-        hidden_candi = self.initHidden()
-        hiddens_candi = []
-        for i in range(len(mask_candi_bert)):#40
-            #hidden_candi = self.forward_np_bert(candi_bert[i], hidden_candi, dropout=dropout) * torch.transpose(mask_candi_bert[i:i + 1], 0, 1)#RNN
-            hidden_candi = candi_bert[i]#choose the max
-            hiddens_candi.append(hidden_candi)
-        hiddens_candi = torch.cat(hiddens_candi,1)
-        hiddens_candi = hiddens_candi.view(-1,len(mask_candi_bert),nnargs["hidden_dimention"])
+        # mask_candi_bert = torch.transpose(candi_mask_bert,0,1)
+        # hidden_candi = self.initHidden()
+        # hiddens_candi = []
+        # for i in range(len(mask_candi_bert)):#40
+        #     #hidden_candi = self.forward_np_bert(candi_bert[i], hidden_candi, dropout=dropout) * torch.transpose(mask_candi_bert[i:i + 1], 0, 1)#RNN
+        #     hidden_candi = candi_bert[i]#choose the max
+        #     hiddens_candi.append(hidden_candi)
+        # hiddens_candi = torch.cat(hiddens_candi,1)
+        # hiddens_candi = hiddens_candi.view(-1,len(mask_candi_bert),nnargs["hidden_dimention"])
         nps = []
-        for npt, zpt in zip(hiddens_candi, zp_representation):  # 5*40*256
-        # for npt, zpt in zip(candi_bert, zp_representation):#5*40*256,5*512
+        # for npt, zpt in zip(hiddens_candi, zp_representation):  # 5*40*256
+        for npt, zpt in zip(torch.transpose(candi_bert,0,1), zp_representation):#5*40*256,5*512
             attention = F.softmax(torch.squeeze(self.activate(self.Attention_np(npt) + self.Attention_zp(zpt))),dim=0)
             #[8*256]*[256*1]+[1*256]*[256*1]+[1*256]*[256*1]=[8*1]+[1*1]+[1*1]=[8*1]-->[8]
             average_np = torch.transpose(npt,0,1)*attention
