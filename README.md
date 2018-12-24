@@ -1,10 +1,10 @@
 pretrained model + preprocessed data
 1. 数据处理->dataM  
 将*pro*之外的5种零元素都改为[MASK]，并且6种类型全部去掉‘-d’(即后面的数字，如：-1)  
- #留着*pro*  
+ 1）#留着*pro*  
  sed -i "s/\-NONE\- \*pro\*/\-NULL\- *pro*/g"  `grep "\-NONE\- \*pro\*" -rl ./data/zp_data`  
  
- #5种零元素都改为[MASK]  
+ 2）#5种零元素都改为[MASK]  
  sed -i "s/\*PRO\*/\[MASK\]/g"  `grep \*PRO\* -rl ./data/zp_data`  
  sed -i "s/\*OP\*/\[MASK\]/g"  `grep \*OP\* -rl ./data/zp_data`  
  sed -i "s/\*T\*/\[MASK\]/g"  `grep \*T\* -rl ./data/zp_data`  
@@ -15,7 +15,7 @@ pretrained model + preprocessed data
  sed -i "s/\*pro\*\-./*pro*/g"  `grep "\*pro\*-" -rl ./data/zp_data`  
  sed -i "s/\[MASK\]\-./[MASK]/g"  `grep "\[MASK\]-" -rl ./data/zp_data`  
    
- 去掉5种零元素，用黄亮的代码  
+  去掉5种零元素，用黄亮的代码  
  https://github.com/lianghuang3/lineardpparser/blob/master/code/tree.py  
    
  2. 模型  
